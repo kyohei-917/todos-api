@@ -18,12 +18,12 @@ RSpec.describe 'Todos API', type: :request do
   end
 
   describe 'GET /todos/:id' do
-    before { get "/todos/#{tood_od}" }
+    before { get "/todos/#{todo_id}" }
 
     context 'when the record exists' do
       it 'returns the todo' do
         expect(json).not_to be_empty
-        expect(json['id']).to ex(todo_id)
+        expect(json['id']).to eq(todo_id)
       end
 
       it 'returns status code 200' do
@@ -45,13 +45,13 @@ RSpec.describe 'Todos API', type: :request do
   end
 
   describe 'POST /todos' do
-    let(:valid_attributes) { { title: 'Learn ELm', created_by: '!' } }
+    let(:valid_attributes) { { title: 'Learn Elm', created_by: '1' } }
 
     context 'when the request is valid' do
       before { post '/todos', params: valid_attributes }
 
       it 'creates a todo' do
-        expect(json['title']).to eq('Lean Elm')
+        expect(json['title']).to eq('Learn Elm')
       end
 
       it 'returns status code 201' do
@@ -63,12 +63,12 @@ RSpec.describe 'Todos API', type: :request do
       before { post '/todos', params: { title: 'Foober' } }
 
       it 'returns status code 422' do
-        expect(respoose).to have_http_status(422)
+        expect(response).to have_http_status(422)
       end
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Created by can't be blank/)
+        .to match(/Validation failed: Created by can't be blank/)
       end
     end
   end
